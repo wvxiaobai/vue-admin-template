@@ -74,6 +74,7 @@ export default {
     $route: {
       handler: function(route) {
         this.redirect = route.query && route.query.redirect
+        console.log(route, this.redirect)
       },
       immediate: true
     }
@@ -87,6 +88,7 @@ export default {
       }
     },
     handleLogin() {
+      console.log(this)
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
