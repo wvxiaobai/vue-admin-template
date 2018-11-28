@@ -1,6 +1,3 @@
-/* Layout */
-import Layout from '../views/layout/Layout'
-
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -16,7 +13,6 @@ import Layout from '../views/layout/Layout'
 export const menu = [
   {
     path: '/permission',
-    component: Layout,
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
     meta: {
