@@ -46,9 +46,7 @@ export default new Router({
 })
 
 import { menu } from '@/router/menu'
-console.log(menu)
 for (var k in menu) {
-  console.log(menu[k].path)
   if (menu[k].path !== '*') {
     menu[k].component = Layout
   }

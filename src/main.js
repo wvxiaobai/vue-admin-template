@@ -13,6 +13,7 @@ import store from './store'
 
 import i18n from '@/lang' // Internationalization
 import '@/icons' // icon
+import '@/errorLog' // error log
 import '@/permission' // permission control
 
 Vue.use(Element, {

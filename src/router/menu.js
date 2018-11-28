@@ -22,6 +22,33 @@ export const menu = [
     },
     children: [
       {
+        path: 'menu',
+        component: () => import('@/views/permission/menu'),
+        name: 'MenuPermission',
+        meta: {
+          title: 'MenuPermission',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'role',
+        component: () => import('@/views/permission/role'),
+        name: 'RolePermission',
+        meta: {
+          title: 'RolePermission',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
+        path: 'user',
+        component: () => import('@/views/permission/user'),
+        name: 'UserPermission',
+        meta: {
+          title: 'UserPermission',
+          roles: ['admin'] // or you can only set roles in sub nav
+        }
+      },
+      {
         path: 'page',
         component: () => import('@/views/permission/page'),
         name: 'PagePermission',
