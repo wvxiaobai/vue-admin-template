@@ -12,6 +12,20 @@
 **/
 export const menu = [
   {
+    path: 'documentation',
+    children: [
+      {
+        path: 'https://github.com/PanJiaChen/vue-element-admin',
+        name: 'documentation',
+        meta: {
+          title: 'documentation',
+          icon: 'link',
+          roles: ['admin']
+        }
+      }
+    ]
+  },
+  {
     path: '/permission',
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu
@@ -24,48 +38,48 @@ export const menu = [
       {
         path: 'menu',
         component: () => import('@/views/permission/menu'),
-        name: 'MenuPermission',
+        name: 'menuPermission',
         meta: {
-          title: 'MenuPermission',
+          title: 'menuPermission',
           roles: ['admin'] // or you can only set roles in sub nav
         }
       },
       {
         path: 'role',
         component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
+        name: 'rolePermission',
         meta: {
-          title: 'RolePermission',
+          title: 'rolePermission',
           roles: ['admin'] // or you can only set roles in sub nav
         }
       },
       {
         path: 'user',
         component: () => import('@/views/permission/user'),
-        name: 'UserPermission',
+        name: 'userPermission',
         meta: {
-          title: 'UserPermission',
+          title: 'userPermission',
           roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'pagePermission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'directivePermission'
-          // if do not set roles, means: this page does not require permission
         }
       }
+      // {
+      //   path: 'page',
+      //   component: () => import('@/views/permission/page'),
+      //   name: 'PagePermission',
+      //   meta: {
+      //     title: 'pagePermission',
+      //     roles: ['admin'] // or you can only set roles in sub nav
+      //   }
+      // },
+      // {
+      //   path: 'directive',
+      //   component: () => import('@/views/permission/directive'),
+      //   name: 'DirectivePermission',
+      //   meta: {
+      //     title: 'directivePermission'
+      //     // if do not set roles, means: this page does not require permission
+      //   }
+      // }
     ]
   },
 

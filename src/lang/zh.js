@@ -1,15 +1,16 @@
 import { childTable } from '@/lang/zh/table'
 export default {
   permissionUserTable: childTable.permissionUserTable,
+  permissionRoleTable: childTable.permissionRoleTable,
   route: {
     dashboard: '首页',
     introduction: '简述',
     documentation: '文档',
     guide: '引导页',
     permission: '权限管理',
-    MenuPermission: '菜单管理',
-    RolePermission: '角色管理',
-    UserPermission: '账号管理',
+    menuPermission: '菜单管理',
+    rolePermission: '角色管理',
+    userPermission: '账号管理',
     pagePermission: '页面权限',
     directivePermission: '指令权限',
     icons: '图标',
