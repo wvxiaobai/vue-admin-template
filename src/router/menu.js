@@ -12,20 +12,6 @@
 **/
 export const menu = [
   {
-    path: 'documentation',
-    children: [
-      {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
-        name: 'documentation',
-        meta: {
-          title: 'documentation',
-          icon: 'link',
-          roles: ['admin']
-        }
-      }
-    ]
-  },
-  {
     path: '/permission',
     redirect: '/permission/index',
     alwaysShow: true, // will always show the root menu

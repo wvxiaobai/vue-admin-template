@@ -19,6 +19,12 @@ export const childTable = {
     desc: '描述',
     status: '状态',
     editMenu: '菜单权限'
+  },
+  permissionMenuTable: {
+    id: '排序',
+    name: '名称',
+    desc: 'url',
+    status: '是否显示'
   }
 }
 

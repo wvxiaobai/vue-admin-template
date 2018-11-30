@@ -30,12 +30,29 @@ export const constantRouterMap = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
-    children: [{
-      path: 'dashboard',
-      component: () => import('@/views/dashboard/index')
-    }]
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'dashboard',
+        meta: { title: 'dashboard', icon: 'dashboard', noCache: true }
+      }
+    ]
+  },
+  {
+    path: '/documentation',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/PanJiaChen/vue-element-admin',
+        name: 'documentation',
+        meta: {
+          title: 'documentation',
+          icon: 'link',
+          roles: ['admin']
+        }
+      }
+    ]
   }
 ]
 

@@ -63,3 +63,27 @@ export function deleteRole(data) {
     data
   })
 }
+
+export function createMenu(data) {
+  return request({
+    url: '/permission/createMenu',
+    method: 'post',
+    data
+  })
+}
+
+export function updateMenu(data) {
+  return request({
+    url: '/permission/updateMenu',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteMenu(data) {
+  return request({
+    url: '/permission/deleteMenu',
+    method: 'post',
+    data
+  })
+}
