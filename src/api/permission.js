@@ -64,6 +64,14 @@ export function deleteRole(data) {
   })
 }
 
+export function menuList(query) {
+  return request({
+    url: '/permission/menuList',
+    method: 'get',
+    params: query
+  })
+}
+
 export function createMenu(data) {
   return request({
     url: '/permission/createMenu',
