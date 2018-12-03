@@ -9,12 +9,12 @@
       <tree-table :data="data" :eval-func="func" :eval-args="args" :expand-all="expandAll" border>
         <el-table-column label="名称">
           <template slot-scope="scope">
-            <span style="color:sandybrown">{{ scope.row.name }}</span>
+            <span>{{ scope.row.name }}</span>
           </template>
         </el-table-column>
         <el-table-column label="地址">
           <template slot-scope="scope">
-            <span style="color:sandybrown">{{ scope.row.url }}</span>
+            <span>{{ scope.row.url }}</span>
           </template>
         </el-table-column>
         <el-table-column label="排序">
@@ -36,26 +36,6 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item :label="$t('permissionUserTable.rid')" prop="rid">
-          <el-select v-model="temp.rid" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in menus" :key="item.id" :label="item.name" :value="item.id"/>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('permissionUserTable.disabled')" prop="disabled">
-          <el-select v-model="temp.disabled" class="filter-item" placeholder="Please select">
-            <el-option v-for="(value, index) in switchs" :key="index" :label="value" :value="index"/>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item :label="$t('permissionUserTable.account')" prop="account">
-          <el-input v-model="temp.account"/>
-        </el-form-item>
-
-        <el-form-item :label="$t('permissionUserTable.password')" prop="password">
-          <el-input v-model="temp.password"/>
-        </el-form-item>
-
         <el-form-item :label="$t('permissionUserTable.email')" prop="email">
           <el-input v-model="temp.email"/>
         </el-form-item>
@@ -115,6 +95,16 @@ export default {
   methods: {
     resetMenuSort() {
       this.tMenuSort = {}
+    },
+    handleUpdate(row) {
+      this.temp = Object.assign({}, row) // copy obj
+      this.temp.password = '********'
+      this.temp.timestamp = new Date(this.temp.timestamp)
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate()
+      })
     },
     changeMenuSort(row) {
       this.$set(this.sortList, row.id, row.index)
