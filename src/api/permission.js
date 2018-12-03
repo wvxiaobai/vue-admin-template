@@ -88,6 +88,14 @@ export function updateMenu(data) {
   })
 }
 
+export function updateMenuSort(data) {
+  return request({
+    url: '/permission/updateMenuSort',
+    method: 'post',
+    data
+  })
+}
+
 export function deleteMenu(data) {
   return request({
     url: '/permission/deleteMenu',
