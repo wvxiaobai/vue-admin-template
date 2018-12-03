@@ -36,6 +36,19 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+        <el-select v-model="menuTmp" placeholder="请选择">
+          <el-option-group
+            v-for="group in menus"
+            :key="group.label"
+            :label="group.label">
+            <el-option
+              v-for="item in group.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"/>
+          </el-option-group>
+        </el-select>
+
         <el-form-item :label="$t('permissionUserTable.email')" prop="email">
           <el-input v-model="temp.email"/>
         </el-form-item>
@@ -68,6 +81,7 @@ export default {
       args: [null, null, 'timeLine'],
       sortList: {},
       menus: null,
+      menuTmp: '',
       temp: {
         id: 0,
         rid: 0,
@@ -112,8 +126,7 @@ export default {
     getList() {
       menuList().then(response => {
         this.data = response.data.items
-        // this.sortList = response.data.indexs
-        // console.log(this.data, this.sortList)
+        this.menus = response.data.menus
       })
     },
     updateMenuSort() {
