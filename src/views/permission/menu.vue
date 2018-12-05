@@ -35,22 +35,50 @@
     </el-form>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-select v-model="menuTmp" placeholder="请选择">
-          <el-option-group
-            v-for="group in menus"
-            :key="group.label"
-            :label="group.label">
-            <el-option
-              v-for="item in group.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"/>
-          </el-option-group>
-        </el-select>
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 800px; margin-left:50px;">
+        <el-form-item label="上级菜单" prop="pid">
+          <el-select v-model="temp.pid" filterable placeholder="请选择">
+            <el-option-group
+              v-for="group in menusSelect"
+              :key="group.label"
+              :label="group.label">
+              <el-option
+                v-for="item in group.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"/>
+            </el-option-group>
+          </el-select>
+        </el-form-item>
 
-        <el-form-item :label="$t('permissionUserTable.email')" prop="email">
-          <el-input v-model="temp.email"/>
+        <el-form-item label="菜单名称" prop="name">
+          <el-input v-model="temp.name"/>
+        </el-form-item>
+
+        <el-form-item label="url地址" prop="url">
+          <el-input v-model="temp.url"/>
+        </el-form-item>
+
+        <el-form-item label="权限目录" prop="path">
+          <el-input v-model="temp.path"/>
+        </el-form-item>
+
+        <el-form-item label="查看权限" prop="read">
+          <el-checkbox-group v-model="temp.menuRole[1]">
+            <el-checkbox v-for="check in rolesCheck" :label="check.name" :key="check.id" style="width: 100px"/>
+          </el-checkbox-group>
+        </el-form-item>
+
+        <el-form-item label="编辑权限" prop="edir">
+          <el-checkbox-group v-model="temp.menuRole[2]">
+            <el-checkbox v-for="check in rolesCheck" :label="check.name" :key="check.id" style="width: 100px"/>
+          </el-checkbox-group>
+        </el-form-item>
+
+        <el-form-item label="删除权限" prop="delete">
+          <el-checkbox-group v-model="temp.menuRole[3]">
+            <el-checkbox v-for="check in rolesCheck" :label="check.name" :key="check.id" style="width: 100px"/>
+          </el-checkbox-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -69,10 +97,12 @@
 import treeTable from '@/components/TreeTable'
 import treeToArray from '@/vendor/customEval'
 import { menuList, updateMenuSort } from '@/api/permission'
+import waves from '@/directive/waves' // Waves directive
 
 export default {
   name: 'CustomTreeTableDemo',
   components: { treeTable },
+  directives: { waves },
   data() {
     return {
       func: treeToArray,
@@ -80,15 +110,15 @@ export default {
       data: {},
       args: [null, null, 'timeLine'],
       sortList: {},
-      menus: null,
-      menuTmp: '',
+      menusSelect: null,
+      rolesCheck: null,
       temp: {
         id: 0,
-        rid: 0,
-        disable: 0,
-        account: '',
-        paassword: '',
-        email: ''
+        pid: '',
+        name: 0,
+        url: '',
+        path: '',
+        menuRole: []
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -114,6 +144,7 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.password = '********'
       this.temp.timestamp = new Date(this.temp.timestamp)
+      console.log(this.temp.menuRole, this.temp.menuRole[1])
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -126,7 +157,8 @@ export default {
     getList() {
       menuList().then(response => {
         this.data = response.data.items
-        this.menus = response.data.menus
+        this.menusSelect = response.data.menusSelect
+        this.rolesCheck = response.data.rolesCheck
       })
     },
     updateMenuSort() {
