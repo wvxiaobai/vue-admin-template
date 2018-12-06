@@ -1,3 +1,10 @@
+<style>
+  .el-checkbox{
+    margin-left:0% !important;
+    width:15%;
+  }
+</style>
+
 <template>
   <div class="app-container">
 
@@ -34,8 +41,8 @@
       </tree-table>
     </el-form>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 800px; margin-left:50px;">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" width="80%">
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="8%" style="margin-left:50px;">
         <el-form-item label="上级菜单" prop="pid">
           <el-select v-model="temp.pid" filterable placeholder="请选择">
             <el-option-group
@@ -65,19 +72,19 @@
 
         <el-form-item label="查看权限" prop="read">
           <el-checkbox-group v-model="temp.menuRole[1]">
-            <el-checkbox v-for="check in rolesCheck" :label="check.name" :key="check.id" style="width: 100px"/>
+            <el-checkbox v-for="check in rolesCheck" :label="check.id" :key="check.id">{{ check.name }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="编辑权限" prop="edir">
           <el-checkbox-group v-model="temp.menuRole[2]">
-            <el-checkbox v-for="check in rolesCheck" :label="check.name" :key="check.id" style="width: 100px"/>
+            <el-checkbox v-for="check in rolesCheck" :label="check.id" :key="check.id">{{ check.name }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
 
         <el-form-item label="删除权限" prop="delete">
           <el-checkbox-group v-model="temp.menuRole[3]">
-            <el-checkbox v-for="check in rolesCheck" :label="check.name" :key="check.id" style="width: 100px"/>
+            <el-checkbox v-for="check in rolesCheck" :label="check.id" :key="check.id">{{ check.name }}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
@@ -96,7 +103,7 @@
 */
 import treeTable from '@/components/TreeTable'
 import treeToArray from '@/vendor/customEval'
-import { menuList, updateMenuSort } from '@/api/permission'
+import { menuList, updateMenuSort, updateMenu } from '@/api/permission'
 import waves from '@/directive/waves' // Waves directive
 
 export default {
@@ -114,7 +121,7 @@ export default {
       rolesCheck: null,
       temp: {
         id: 0,
-        pid: '',
+        pid: 0,
         name: 0,
         url: '',
         path: '',
@@ -144,11 +151,33 @@ export default {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.password = '********'
       this.temp.timestamp = new Date(this.temp.timestamp)
-      console.log(this.temp.menuRole, this.temp.menuRole[1])
+      // console.log(this.temp.menuRole)
+      this.temp.menuRole = JSON.stringify(this.temp.menuRole)
+      this.temp.children = ''
+      this.temp.parent = ''
+      console.log(this.temp.menuRole)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
+      })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp)
+          console.log(tempData)
+          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          updateMenu(tempData).then(() => {
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '更新成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
       })
     },
     changeMenuSort(row) {
@@ -166,7 +195,7 @@ export default {
         if (valid) {
           this.tmp = {}
           this.$set(this.tmp, 'id', this.sortList)
-          console.log(this.tmp)
+          // console.log(this.tmp)
           updateMenuSort(this.tmp).then(() => {
             this.resetMenuSort()
             this.$notify({
