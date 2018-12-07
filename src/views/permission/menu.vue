@@ -31,8 +31,9 @@
             </el-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="200">
+        <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="handleUpdate()">{{ $t('table.add') }}</el-button>
             <el-button type="primary" size="mini" @click="handleUpdate(scope.row)">{{ $t('table.edit') }}</el-button>
             <el-button v-if="scope.row.status!='deleted'" size="mini" type="danger" @click="handleDelete(scope.row)">{{ $t('table.delete') }}
             </el-button>
@@ -148,11 +149,11 @@ export default {
       this.tMenuSort = {}
     },
     handleUpdate(row) {
+      if (row) {
+        this.temp = Object.assign({}, row) // copy obj
+      }
       this.temp = Object.assign({}, row) // copy obj
-      this.temp.password = '********'
       this.temp.timestamp = new Date(this.temp.timestamp)
-      // console.log(this.temp.menuRole)
-      this.temp.menuRole = JSON.stringify(this.temp.menuRole)
       this.temp.children = ''
       this.temp.parent = ''
       console.log(this.temp.menuRole)
