@@ -104,7 +104,7 @@
 */
 import treeTable from '@/components/TreeTable'
 import treeToArray from '@/vendor/customEval'
-import { menuList, updateMenuSort, updateMenu } from '@/api/permission'
+import { menuList, updateMenuSort, updateMenu, createMenu, deleteMenu } from '@/api/permission'
 import waves from '@/directive/waves' // Waves directive
 
 export default {
@@ -126,7 +126,9 @@ export default {
         name: 0,
         url: '',
         path: '',
-        menuRole: []
+        menuRole: {
+          1: [], 2: [], 3: []
+        }
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -151,16 +153,35 @@ export default {
     handleUpdate(row) {
       if (row) {
         this.temp = Object.assign({}, row) // copy obj
+        this.dialogStatus = 'update'
+      } else {
+        this.dialogStatus = 'create'
       }
-      this.temp = Object.assign({}, row) // copy obj
+      console.log(this.dialogStatus)
       this.temp.timestamp = new Date(this.temp.timestamp)
       this.temp.children = ''
       this.temp.parent = ''
-      console.log(this.temp.menuRole)
-      this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
+      })
+    },
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp)
+          console.log(tempData)
+          tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
+          createMenu(tempData).then(() => {
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '成功',
+              message: '创建成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
       })
     },
     updateData() {
@@ -179,6 +200,20 @@ export default {
             })
           })
         }
+      })
+    },
+    handleDelete(row) {
+      const tempData = Object.assign({}, row)
+      tempData.timestamp = +new Date(tempData.timestamp)
+      deleteMenu(tempData).then(() => {
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 20000
+        })
+        const index = this.data.indexOf(row)
+        this.data.splice(index, 1)
       })
     },
     changeMenuSort(row) {

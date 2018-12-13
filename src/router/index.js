@@ -42,6 +42,7 @@ export const constantRouterMap = [
   {
     path: '/documentation',
     component: Layout,
+    redirect: '/documentation',
     children: [
       {
         path: 'https://github.com/PanJiaChen/vue-element-admin',

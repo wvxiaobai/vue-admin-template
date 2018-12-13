@@ -23,6 +23,7 @@ export default {
     if (title) {
       vnodes.push(<span slot='title'>{(title)}</span>)
     }
+    // console.log(context.props)
     return vnodes
   }
 }
